@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resource/b.html</file>
+        <file>resource/per_port.html</file>
+		<file>resource/rx_check.html</file>
+        <file>resource/exit.png</file>
+        <file>resource/player_play.png</file>
+        <file>resource/player_stop.png</file>
+        <file>resource/player_pause.png</file>
+        <file>resource/ledoff.png</file>
+        <file>resource/ledon.png</file>
+        <file>resource/trex.jpg</file>
+        <file>resource/trex.ico</file>
+    </qresource>
+</RCC>

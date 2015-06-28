@@ -1,0 +1,6 @@
+
+== TRex Windows viewer 
+
+A small windows Qt application to view runtime notifications from TRex application. 
+It gets JSON format messages on top of ZMQ messages and convert thoses  messages to charts/HTML pages
+
