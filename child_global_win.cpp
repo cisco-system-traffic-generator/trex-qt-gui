@@ -73,10 +73,7 @@ void GlobalChildMainWindow::reset(){
 
 void GlobalChildMainWindow::update_new_json(QString s){
 
-    //qDebug()<<s;
-    //qDebug()<<s;
     bool update=false;
-  //  qDebug()<<s;
     CParserGlobal g(s);
     if ( g.process(m_stats) == 0){
         emit update_port_counters(&m_stats);

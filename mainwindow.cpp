@@ -170,7 +170,7 @@ MainWindow::~MainWindow()
 void MainWindow::about(){
     QMessageBox about;
     about.setIconPixmap (QPixmap (":/resource/trex.jpg" ));
-    about.setText("<h1>TRex viewer v0.5</h1>");
+    about.setText("<h1>TRex viewer v0.6</h1>");
     about.setStandardButtons(QMessageBox::Ok);
     about.setDefaultButton(QMessageBox::Ok);
     about.show();

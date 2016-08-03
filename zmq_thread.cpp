@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "zmq_gcontext.h"
 #include <QDebug>
+#include <QtEndian>
 
 /**  Copyright (c) 2015-2015 Cisco Systems, Inc.  **
 **                                                                        **
@@ -117,7 +118,23 @@ int CZmqThread::block_rcv_socket(QString & s){
             printf ("error in zmq_rcv : %s\n", zmq_strerror (errno));
             return(-1);
         }else{
-            s +=(QString::fromLocal8Bit((char *)zmq_msg_data (&m_msg), (int)zmq_msg_size (&m_msg) ) );
+            char * p = (char *)zmq_msg_data (&m_msg);
+            int lsize= (int)zmq_msg_size (&m_msg);
+            if ( lsize > 4 ) {
+                /* check MAGIC in the first 4 bytes in case we have it, it is compressed */
+                uint32_t magic = qToBigEndian(*(uint32_t*)p);
+                if (magic == 0xABE85CEA){
+                    p+=4;
+                    lsize-=4;
+                    QByteArray compressed_data = qUncompress(QByteArray(p,lsize));
+                    s +=(QString::fromLocal8Bit((char *)compressed_data.data() , compressed_data.size() ) );
+                }else{
+                    s +=(QString::fromLocal8Bit((char *)zmq_msg_data (&m_msg), (int)zmq_msg_size (&m_msg) ) );
+                }
+            }else{
+                s +=(QString::fromLocal8Bit((char *)zmq_msg_data (&m_msg), (int)zmq_msg_size (&m_msg) ) );
+            }
+
             rc = zmq_getsockopt (m_socket, ZMQ_RCVMORE, &more, &more_size);
             if (rc != 0) {
                 printf ("error in zmq_getsockopt : %s\n", zmq_strerror (errno));
